@@ -1,0 +1,13 @@
+<header class="navbar navbar-inverse">
+  <nav>
+    <ul class="nav navbar-nav navbar-right">
+      <li><%= link "Home", to: user_path(@conn, :index) %></li>
+      <%= if @current_user do %>
+        <li><%= link "SignOut", to: "#" %></li>
+      <% else %>
+        <li><%= link "SignIn", to: session_path(@conn, :new) %></li>
+        <li><%= link "SignUp", to: user_path(@conn, :new) %></li>
+      <% end %>
+    </ul>
+  </nav>
+</header>
