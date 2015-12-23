@@ -25,6 +25,7 @@ defmodule Forum.ConnCase do
       import Ecto.Query, only: [from: 2]
 
       import Forum.Router.Helpers
+      import Forum.TestHelpers
 
       # The default endpoint for testing
       @endpoint Forum.Endpoint
