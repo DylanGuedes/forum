@@ -17,7 +17,7 @@ defmodule Forum.Router do
   scope "/", Forum do
     pipe_through :browser # Use the default browser stack
     resources "/users", UserController, only: [:index, :new, :create, :show]
-    get "/", UserController, :index
+    get "/", PortalController, :index
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 

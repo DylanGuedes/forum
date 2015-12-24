@@ -1,7 +1,7 @@
 <header class="navbar navbar-inverse">
   <nav>
     <ul class="nav navbar-nav navbar-right">
-      <li><%= link "Home", to: user_path(@conn, :index) %></li>
+      <li><%= link "Home", to: portal_path(@conn, :index) %></li>
       <%= if @current_user do %>
         <li><%= link "SignOut", to: "#" %></li>
         <li><%= link "#{@current_user.name}", to: user_path(@conn, :show, @current_user.id) %></li>

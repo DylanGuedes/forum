@@ -1,6 +1,6 @@
 defmodule Forum.User do
   use Forum.Web, :model
-
+  alias Forum.Section
   import Ecto.Changeset
 
   schema "users" do
@@ -8,7 +8,7 @@ defmodule Forum.User do
     field :username, :string
     field :password, :string, virtual: true
     field :password_hash, :string
-
+    has_many :sections_created, Forum.Section, foreign_key: :author_id
     timestamps
   end
 
