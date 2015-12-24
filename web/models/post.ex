@@ -1,14 +1,13 @@
-defmodule Forum.Section do
+defmodule Forum.Post do
   use Forum.Web, :model
   alias Forum.User
   alias Forum.Topic
   import Ecto.Changeset
 
-  schema "sections" do
-    field :name
-    field :description
+  schema "posts" do
+    belongs_to :topic, Forum.Topic
     belongs_to :author, Forum.User
-    has_many :topics, Forum.Topic
+    field :content
     timestamps
   end
 
