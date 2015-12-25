@@ -6,7 +6,7 @@
     <div class="container section-title">
       <div class="row">
         <div class="col-md-4">
-          <h5 class="section-name"><%= section.name %></h2>
+          <h5 class="section-name"><%= link "#{section.name}", to: section_path(@conn, :show, section.id) %></h2>
         </div>
 
         <div class="col-md-4">

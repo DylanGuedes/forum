@@ -1,0 +1,26 @@
+<div class="section-name-container">
+  <h1>Section <%= @section.name %></h1>
+</div>
+
+<%= for topic <- @topics do %>
+  <div class="row">
+    <div class="col-md-6">
+      <h5 class="topic-title"><%= link "#{topic.title}", to: topic_path(@conn, :show, topic.id) %></h2>
+    </div>
+
+    <div class="col-md-2">
+      <p class="topic-author"><%= link "#{topic.author.username}", to: user_path(@conn, :show, topic.author.id) %></p>
+    </div>
+
+    <div class="col-md-2">
+      <h4 class="topic-name">30 Respostas<h4>
+      <p class="section-last-reply">316 Visualizações</p>
+    </div>
+
+    <div class="col-md-2">
+      por: <a href="#">Alguem</a>
+      Hoje, 10:29 PM
+    </div>
+  </div>
+<% end %>
+

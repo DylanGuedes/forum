@@ -25,11 +25,11 @@ defmodule Forum.UserController do
         conn
         |> put_flash(:info, "User created!")
         |> redirect(to: user_path(conn, :index))
-      
+
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
-  end 
+  end
 
   defp authenticate(conn, _) do
     if conn.assigns.current_user do
