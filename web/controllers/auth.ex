@@ -5,7 +5,7 @@ defmodule Forum.Auth do
   def init(opts) do
     Keyword.fetch!(opts, :repo)
   end
-  
+
   def call(conn, repo) do
     user_id = get_session(conn, :user_id)
     user = user_id && repo.get(Forum.User, user_id)

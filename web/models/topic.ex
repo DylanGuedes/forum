@@ -8,7 +8,7 @@ defmodule Forum.Topic do
   schema "topics" do
     field :title
     field :subtitle
-    belongs_to :author, Forum.User 
+    belongs_to :author, Forum.User
     belongs_to :section, Forum.Section
     field :content
     has_many :posts, Forum.Post

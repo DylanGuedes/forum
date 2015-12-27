@@ -24,7 +24,7 @@
   <div class="form-group">
     <%= password_input f, :password, placeholder: "Password", class: "form-control" %>
   </div>
-  
+
   <%= submit "Create User", class: "btn btn-primary" %>
 
 <% end %>

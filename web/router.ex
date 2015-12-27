@@ -19,8 +19,10 @@ defmodule Forum.Router do
     resources "/users", UserController, only: [:index, :new, :create, :show]
     get "/", PortalController, :index
     resources "/sessions", SessionController, only: [:new, :create, :delete]
-    resources "/sections", SectionController, only: [:show]
-    resources "/topics", TopicController, only: [:show]
+    resources "/sections", SectionController, only: [:show, :new, :create]
+    resources "/topics", TopicController, only: [:show, :new, :create]
+    resources "/posts", PostController, only: [:new, :create]
+    get "/posts/new", PostController, :new
   end
 
   # Other scopes may use custom stacks.

@@ -90,3 +90,8 @@ form.link, form.button {
     border-bottom: 0;
   }
 }
+
+.container {
+  width: 1170px !important;
+  max-width: 1170px;
+}

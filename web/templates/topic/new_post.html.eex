@@ -1,0 +1,11 @@
+<h1>New Reply</h1>
+
+<%= form_for @changeset, topic_path(@conn, :create_post, 1), fn f -> %>
+
+  <div class="form-group">
+    <%= text_input f, :content, placeholder: "Your post...", class: "form-control" %>
+  </div>
+
+  <%= submit "Create Post", class: "btn btn-primary" %>
+
+<% end %>
