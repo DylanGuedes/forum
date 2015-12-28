@@ -6,6 +6,9 @@
     <%= text_input f, :content, placeholder: "Your post...", class: "form-control" %>
   </div>
 
+  <%= hidden_input f, :topic_id, value: @topic_id %>
+  <%= hidden_input f, :author_id, value: @current_user.id %>
+
   <%= submit "Create Post", class: "btn btn-primary" %>
 
 <% end %>

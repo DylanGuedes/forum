@@ -13,7 +13,8 @@
     </div>
   </div>
 
-  <%= for post <- @topic.posts do %>
+  <h1>Posts below!</h1>
+  <%= for post <- @posts do %>
     <div class="row">
       <div class="col-md-4">
         <div class="post-author">
@@ -24,6 +25,7 @@
       <div class="col-md-8">
         <%= post.content %>
       </div>
+    </div>
   <% end %>
 
   <%= link "New Reply", to: post_path(@conn, :new, %{"topic_id" => @topic.id}) %>

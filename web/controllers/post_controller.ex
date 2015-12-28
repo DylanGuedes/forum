@@ -12,21 +12,21 @@ defmodule Forum.PostController do
 
   def new(conn, %{"topic_id" => topic_id}) do
     topic = Repo.get(Topic, topic_id)
-    changeset = Post.changeset(%Post{}, author_id: conn.assigns.current_user.id )
-    render conn, "new.html", changeset: changeset
+    changeset = Post.changeset(%Post{})
+    render conn, "new.html", changeset: changeset, topic_id: topic_id
   end
 
   def create(conn, %{"post" => post_params }) do
-    case Repo.insert(post_params) do
+    changeset = Post.changeset(%Post{}, post_params)
+    case Repo.insert(changeset) do
       {:ok, post} ->
         conn
-        |> put_flash(:info, "User created!")
-        |> redirect(to: user_path(conn, :index))
+        |> put_flash(:info, "Post created!")
+        |> redirect(to: topic_path(conn, :show, changeset.changes.topic_id))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
-
 
 end
