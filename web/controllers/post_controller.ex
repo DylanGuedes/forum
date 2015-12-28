@@ -3,11 +3,16 @@ defmodule Forum.PostController do
   import Ecto.Model
   alias Forum.Repo
   alias Forum.Topic
+  alias Forum.Post
+  alias Forum.UserController
+
+  import Forum.Plug.Warden
+
+  plug Forum.Plug.Warden
 
   def new(conn, %{"topic_id" => topic_id}) do
     topic = Repo.get(Topic, topic_id)
-    changeset = 
-    changeset = Repo.preload changeset, [:author, :topic]
+    changeset = Post.changeset(%Post{}, author_id: conn.assigns.current_user.id )
     render conn, "new.html", changeset: changeset
   end
 
