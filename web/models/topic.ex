@@ -17,7 +17,7 @@ defmodule Forum.Topic do
 
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(author_id section_id content title, ~w(subtitle) )
+    |> cast(params, ~w(author_id section_id content title), ~w(subtitle) )
     |> validate_length(:content, min: 10, max: 99999)
     |> validate_length(:title, min: 3, max: 150)
     |> validate_length(:subtitle, min: 3, max: 150)

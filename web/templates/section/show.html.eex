@@ -24,3 +24,4 @@
   </div>
 <% end %>
 
+<%= link "New Topic", to: topic_path(@conn, :new, %{"section_id" => @section.id}) %>

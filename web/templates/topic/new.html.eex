@@ -1,0 +1,20 @@
+<h1>New Topic</h1>
+
+<%= form_for @changeset, topic_path(@conn, :create), fn f -> %>
+  <div class="form-group">
+    <%= text_input f, :title, placeholder: "Title of your topic...", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= text_input f, :subtitle, placeholder: "Subtitle of your topic...", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= textarea f, :content, placeholder: "Your topic content...", class: "form-control" %>
+  </div>
+
+  <%= hidden_input f, :section_id, value: @section_id %>
+  <%= hidden_input f, :author_id, value: @current_user.id %>
+
+  <%= submit "Create Post", class: "btn btn-primary" %>
+<% end %>
