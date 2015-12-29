@@ -1,31 +1,49 @@
 <div class="topic-show">
-  <h1><%= "#{@topic.title}" %></h1>
-  <h4><%= "#{@topic.subtitle}" %></h4>
-  <div class="row">
-    <div class="col-md-4">
-      <div class="topic-author">
-        <%= link "#{@topic.author.name}", to: user_path(@conn, :show, @topic.author_id) %>
+  <ul class="breadcrumb">
+    <li><%= link "Home", to: "/" %></li>
+    <li><%= link @topic.section.name, to: section_path(@conn, :show, @topic.section_id) %></li>
+    <li><%= @topic.title %></li>
+  </ul>
+
+  <div class="topic-presentation">
+    <strong class="centered topic-title"><%= "#{@topic.title}" %></strong>
+    <strong class="centered topic-subtitle">(<%= @topic.subtitle %>)</strong>
+  </div>
+
+  <div class="topic-post">
+    <div class="post-header">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="topic-author">
+            <%= link @topic.author.name, to: user_path(@conn, :show, @topic.author_id) %>
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <p><%= @topic.inserted_at %></p>
+        </div>
       </div>
     </div>
 
-    <div class="col-md-8">
-      <%= @topic.content %>
+    <div class="post-block">
+      <div class="row">
+        <div class="col-md-4">
+          <ul class="topic-author-info">
+            <li>Grupo: Membros</li>
+            <li>Posts: 2942</li>
+            <li>Since: <p><%= @topic.author.inserted_at %></p></li>
+          </ul>
+        </div>
+
+        <div class="col-md-8">
+          <p class="topic-content"><%= @topic.content %></p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <h1>Posts below!</h1>
   <%= for post <- @posts do %>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="post-author">
-          <%= link post.author.name, to: user_path(@conn, :show, post.author_id) %>
-        </div>
-      </div>
-
-      <div class="col-md-8">
-        <%= post.content %>
-      </div>
-    </div>
+    <%= render "post.html", post: post, conn: @conn %>
   <% end %>
 
   <%= link "New Reply", to: post_path(@conn, :new, %{"topic_id" => @topic.id}) %>

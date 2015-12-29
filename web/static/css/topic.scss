@@ -1,0 +1,44 @@
+.topic-presentation {
+  margin-bottom: 20px;
+  background: #bbb;
+  padding: 10px;
+  color: white;
+
+  .topic-subtitle {
+    font-weight: 100;
+  }
+
+  .topic-title {
+    font-weight: 600;
+  }
+}
+
+.topic-author-info {
+  background: #eee;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  list-style: none;
+}
+
+.post-header {
+  background: #eee;
+  padding-top: 10px;
+  padding-left: 15px;
+  color: black;
+
+  p {
+    color: gray;
+  }
+}
+
+.post-block {
+  padding-top: 10px;
+}
+
+.topic-post {
+  margin-bottom: 60px;
+}
+
+.topic-show {
+  margin-bottom: 20px;
+}
