@@ -5,8 +5,9 @@ defmodule Forum.PortalController do
   import Ecto.Query
 
   def index(conn, _params) do
-    topics = "1" # to do
-    sections = Repo.all from i in Section, preload: [:topics]
+    sections = from u in Section, preload: [:topics, :author]
+    query = Section.count_topics(sections)
+    sections = Repo.all query
     render conn, "index.html", sections: sections
   end
 

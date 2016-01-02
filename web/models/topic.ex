@@ -4,6 +4,8 @@ defmodule Forum.Topic do
   alias Forum.Section
   alias Forum.User
   alias Forum.Post
+  alias Forum.Repo
+  import Ecto.Query
 
   schema "topics" do
     field :title
@@ -21,6 +23,33 @@ defmodule Forum.Topic do
     |> validate_length(:content, min: 10, max: 99999)
     |> validate_length(:title, min: 3, max: 150)
     |> validate_length(:subtitle, min: 3, max: 150)
+  end
+
+  def count_posts(query) do
+    from p in query,
+      group_by: p.id,
+      left_join: c in assoc(p, :posts),
+      select: {p, count(c.id)}
+  end
+
+  def posts_amount(id) do
+    total_posts = 0
+    posts = from p in Post, where: p.topic_id == ^id, select: {[p], count(p.id)}, group_by: p.id
+    posts = Repo.all posts
+    for post <- posts do
+      {arr, mycount} = post
+      IO.puts("MYCOUNT:")
+      IO.puts(mycount)
+      total_posts = total_posts + mycount
+    end
+    total_posts
+  end
+
+  def last_post(topic) do
+    post = List.last(topic.posts)
+    if post do
+      post = Repo.preload post, [:author]
+    end
   end
 
 end

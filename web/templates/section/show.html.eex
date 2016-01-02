@@ -1,27 +1,40 @@
-<div class="section-name-container">
-  <h1>Section <%= @section.name %></h1>
-</div>
+<div class="section-show">
+  <ul class="breadcrumb">
+    <li><%= link "Home", to: "/" %></li>
+    <li><%= @section.name %></li>
+  </ul>
 
-<%= for topic <- @topics do %>
-  <div class="row">
-    <div class="col-md-6">
-      <h5 class="topic-title"><%= link "#{topic.title}", to: topic_path(@conn, :show, topic.id) %></h2>
-    </div>
 
-    <div class="col-md-2">
-      <p class="topic-author"><%= link "#{topic.author.username}", to: user_path(@conn, :show, topic.author.id) %></p>
-    </div>
-
-    <div class="col-md-2">
-      <h4 class="topic-name">30 Respostas<h4>
-      <p class="section-last-reply">316 Visualizações</p>
-    </div>
-
-    <div class="col-md-2">
-      por: <a href="#">Alguem</a>
-      Hoje, 10:29 PM
-    </div>
+  <div class="section-name-container">
+    <h1><%= @section.name %></h1>
   </div>
-<% end %>
 
-<%= link "New Topic", to: topic_path(@conn, :new, %{"section_id" => @section.id}) %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Title (subtitle)</th>
+        <th>Author</th>
+        <th>Posts</th>
+        <th>Last reply author</th>
+        <th>Last reply date</th>
+      </tr>
+    </thead>
+
+    <%= for {topic, post_count} <- @topics do %>
+      <tbody>
+        <td class="topic-title"><%= link "#{topic.title} (#{topic.subtitle})", to: topic_path(@conn, :show, topic.id) %></td>
+        <td class="topic-author"><%= link "#{topic.author.username}", to: user_path(@conn, :show, topic.author.id) %></td>
+        <td class="topic-name"><%= post_count %> posts</td>
+        <%= if List.last(topic.posts) do %>
+          <td class="topic-last-reply-author">by: <%= link Forum.Topic.last_post(topic).author.username, to: user_path(@conn, :show, Forum.Topic.last_post(topic).author.id) %></td>
+          <td class="topic-last-reply-date">at: <%= Forum.Topic.last_post(topic).inserted_at %></td>
+        <% else %>
+          <td class="topic-last-reply-author">by: <%= link topic.author.username, to: user_path(@conn, :show, topic.author.id) %></td>
+          <td class="topic-last-reply-date">at: <%= topic.inserted_at %></td>
+        <% end %>
+      </tbody>
+    <% end %>
+  </div>
+
+  <%= link "New Topic", to: topic_path(@conn, :new, %{"section_id" => @section.id}), class: "btn btn-info" %>
+</div>

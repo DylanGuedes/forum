@@ -1,24 +1,36 @@
 <div class="forum-index">
-  <div class="last-message-container">
+  <ul class="breadcrumb">
+    <li>Home</li>
+  </ul>
+
+  <table class="table table-hover">
+    <thead>
+      <th>Section</th>
+      <th>Stats</th>
+      <th>Last post</th> 
+    </thead>
+
+    <tbody>
+      <%= for {section, count} <- @sections do %>
+        <tr>
+          <div class="container section-title">
+            <td>
+              <h5 class="section-name"><%= link "#{section.name}", to: section_path(@conn, :show, section.id) %></h2>
+              <h6 class="section-description"><%= section.description %></h6>
+            </td>
+
+            <td>
+              <p class="section-statistics"><%= count %> topics</p>
+              <p class="section-statistics">105124 posts</p>
+            </td>
+
+            <td>
+              <h4 class="last-topic">Chico Buarque...</h4>
+              <p class="section-last-reply">Por: <a href="#">Ark</a>Hoje, 09:28PM</p>
+            </td>
+          </div>
+        </tr>
+      <% end %>
+    </tbody>
   </div>
-
-  <%= for section <- @sections do %>
-    <div class="container section-title">
-      <div class="row">
-        <div class="col-md-4">
-          <h5 class="section-name"><%= link "#{section.name}", to: section_path(@conn, :show, section.id) %></h2>
-        </div>
-
-        <div class="col-md-4">
-          <p class="section-statistics">25064 topics</p>
-          <p class="section-statistics">105124 posts</p>
-        </div>
-
-        <div class="col-md-4">
-          <h4 class="last-topic">Chico Buarque...</h4>
-          <p class="section-last-reply">Por: <a href="#">Ark</a>Hoje, 09:28PM</p>
-        </div>
-      </div>
-    </div>
-  <% end %>
 </div>

@@ -5,11 +5,15 @@ defmodule Forum.SectionController do
   import Ecto.Query
   alias Forum.Changeset
   alias Forum.Auth
+  alias Forum.Topic
+  alias Forum.Repo
 
   def show(conn, %{"id" => id}) do
     section = Repo.get(Forum.Section, id)
     section = Repo.preload section, [:author, :topics]
-    topics = Repo.preload section.topics, [:author]
+    topics = from u in Topic, where: u.section_id == ^id, preload: [:author, :posts]
+    query = Topic.count_posts(topics)
+    topics = Repo.all query
     render conn, "show.html", section: section, topics: topics
   end
 
