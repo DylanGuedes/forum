@@ -1,6 +1,7 @@
 defmodule Forum.Section do
   use Forum.Web, :model
   alias Forum.User
+  alias Forum.Repo
   alias Forum.Topic
   import Ecto.Changeset
 
@@ -29,10 +30,18 @@ defmodule Forum.Section do
     total_posts = 0
     topics = from u in Topic, preload: [:section, :posts], where: u.section_id == ^section_id
     result = Repo.all topics
-    for topic <- result do
-      total_posts = total_posts + Forum.Topic.posts_amount(topic.id)
+    if List.last(result) do
+      mylist = for topic <- result do
+        Forum.Topic.posts_amount(topic.id)
+      end
+      Enum.sum(List.flatten(mylist))
     end
-    total_posts
+  end
+
+  def last_topic(section_id) do
+    query = from p in Topic, where: p.section_id == ^section_id, preload: [:author, :posts], order_by: [desc: p.inserted_at]
+    topics = Repo.all query
+    topic = hd(topics)
   end
 
 end

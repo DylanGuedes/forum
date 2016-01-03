@@ -7,7 +7,7 @@
     <thead>
       <th>Section</th>
       <th>Stats</th>
-      <th>Last post</th> 
+      <th>Last post</th>
     </thead>
 
     <tbody>
@@ -21,12 +21,21 @@
 
             <td>
               <p class="section-statistics"><%= count %> topics</p>
-              <p class="section-statistics">105124 posts</p>
+              <%= if List.last(section.topics) do %>
+                <p class="section-statistics"><%= Forum.Section.count_posts(section.id) %> posts</p>
+              <% else %>
+                <p class="section-statistics">0 posts</p>
+              <% end %>
             </td>
 
             <td>
-              <h4 class="last-topic">Chico Buarque...</h4>
-              <p class="section-last-reply">Por: <a href="#">Ark</a>Hoje, 09:28PM</p>
+              <%= if List.last(section.topics) do %>
+                <h4 class="last-topic"><%= Forum.Section.last_topic(section.id).title %></h4>
+                <p class="section-last-reply">Por: <%= link Forum.Section.last_topic(section.id).author.username, to: user_path(@conn, :show, Forum.Section.last_topic(section.id).author.id) %></p>
+              <% else %>
+                <p class="last-topic">Empty Section</p>
+                <p class="section-last-reply">Empty Section</p>
+              <% end %>
             </td>
           </div>
         </tr>

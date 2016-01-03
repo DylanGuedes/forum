@@ -34,15 +34,8 @@ defmodule Forum.Topic do
 
   def posts_amount(id) do
     total_posts = 0
-    posts = from p in Post, where: p.topic_id == ^id, select: {[p], count(p.id)}, group_by: p.id
+    posts = from p in Post, where: p.topic_id == ^id, select: count(p.id), group_by: p.id
     posts = Repo.all posts
-    for post <- posts do
-      {arr, mycount} = post
-      IO.puts("MYCOUNT:")
-      IO.puts(mycount)
-      total_posts = total_posts + mycount
-    end
-    total_posts
   end
 
   def last_post(topic) do
