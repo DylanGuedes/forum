@@ -17,5 +17,13 @@ defmodule Forum.SessionController do
         |> put_flash(:error, "Wrong combination!")
         |> render("new.html")
     end
-  end 
+  end
+
+  def delete(conn, _) do
+    conn
+    |> Forum.Auth.logout()
+    |> put_flash(:info, "You have been logged out!")
+    |> redirect(to: "/")
+  end
+
 end

@@ -18,11 +18,13 @@ defmodule Forum.Router do
     pipe_through :browser # Use the default browser stack
     resources "/users", UserController, only: [:index, :new, :create, :show]
     get "/", PortalController, :index
-    resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/sessions", SessionController, only: [:new, :create]
+    get "/sessions/signout", SessionController, :delete
     resources "/sections", SectionController, only: [:show, :new, :create]
     resources "/topics", TopicController, only: [:show, :new, :create]
     resources "/posts", PostController, only: [:new, :create]
     get "/posts/new", PostController, :new
+    get "/admin", AdminController, :index
   end
 
   # Other scopes may use custom stacks.

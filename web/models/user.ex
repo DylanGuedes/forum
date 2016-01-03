@@ -10,10 +10,16 @@ defmodule Forum.User do
     field :username, :string
     field :password, :string, virtual: true
     field :password_hash, :string
+    field :admin, :boolean
     has_many :sections_created, Forum.Section, foreign_key: :author_id
     has_many :topics_created, Forum.Topic, foreign_key: :author_id
     has_many :posts_created, Forum.Post, foreign_key: :author_id
     timestamps
+  end
+
+  def change_admin(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(admin), [])
   end
 
   def changeset(model, params \\ :empty) do
