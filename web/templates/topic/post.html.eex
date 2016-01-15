@@ -27,3 +27,8 @@
     </div>
   </div>
 </div>
+
+<div class="quote-button">
+  <p><%= link "Quote this post", to: post_path(@conn, :new, %{"topic_id" => @post.topic_id, "content" => @post.content}), class: "btn centered" %></p>
+</div>
+

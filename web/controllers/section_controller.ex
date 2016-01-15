@@ -22,4 +22,17 @@ defmodule Forum.SectionController do
     render conn, "new.html", changeset: changeset
   end
 
+  def create(conn, %{"section" => section_params }) do
+    changeset = Section.changeset(%Section{}, section_params)
+    case Repo.insert(changeset) do
+      {:ok, section} ->
+        conn
+        |> put_flash(:info, "Section created!")
+        |> redirect(to: portal_path(conn, :index))
+
+      {:error, changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
+  end
+
 end

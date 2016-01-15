@@ -10,6 +10,7 @@ defmodule Forum.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Repo.get(Forum.User, id)
+    user = Repo.preload user, [:posts_created, :topics_created]
     render conn, "show.html", user: user
   end
 

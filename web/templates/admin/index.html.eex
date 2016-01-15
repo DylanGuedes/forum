@@ -1,8 +1,9 @@
 <div class="admin-panel">
-  <h1>Admin Panel</h1>
-  <h2>Block Users</h2>
+  <h1 class="centered">Admin Panel</h1>
 
-  <h2>Create Section</h2>
+  <%= render "block_users.html", conn: @conn %>
 
-  <h2>Reports</h2>
+  <%= render "create_section.html", conn: @conn, changeset: @changeset, current_user: @current_user %>
+
+  <%= render "manage_reports.html", conn: @conn %>
 </div>

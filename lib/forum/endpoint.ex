@@ -33,7 +33,7 @@ defmodule Forum.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_forum_key",
-    signing_salt: "N7ji+r3Y"
-
+    signing_salt: "N7ji+r3Y",
+    max_age: 86400
   plug Forum.Router
 end

@@ -1,0 +1,18 @@
+<div class="create-section-block">
+  <h2>Create Section</h2>
+  <div class="new-section-block width-40">
+    <%= form_for @changeset, section_path(@conn, :create), fn f -> %>
+      <div class="form-group">
+        <%= text_input f, :name, placeholder: "Section Name", class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= textarea f, :description, placeholder: "Description", class: "form-control" %>
+      </div>
+
+      <%= hidden_input f, :author_id, value: @current_user.id %>
+
+      <%= submit "Create Section", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

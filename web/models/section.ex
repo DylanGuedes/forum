@@ -15,7 +15,7 @@ defmodule Forum.Section do
 
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(author_id topic_id content), [] )
+    |> cast(params, ~w(author_id description name), [] )
     |> validate_length(:content, min: 10, max: 99999)
   end
 

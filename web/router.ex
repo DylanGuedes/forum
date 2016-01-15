@@ -23,6 +23,7 @@ defmodule Forum.Router do
     resources "/sections", SectionController, only: [:show, :new, :create]
     resources "/topics", TopicController, only: [:show, :new, :create]
     resources "/posts", PostController, only: [:new, :create]
+    resources "/reports", ReportController, only: [:new, :create, :show]
     get "/posts/new", PostController, :new
     get "/admin", AdminController, :index
   end

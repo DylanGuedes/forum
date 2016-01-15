@@ -1,0 +1,31 @@
+<div class="new-report-page">
+  <p>Reporting <%= @target.username %></p>
+
+  <%= form_for @changeset, report_path(@conn, :create), fn f -> %>
+
+    <%= if f.errors != [] do %>
+      <div class="alert alert-danger">
+        <p>Wrong data! :(</p>
+        <ul>
+          <%= for {attr, message} <- f.errors do %>
+            <li><%= humanize(attr) %> <%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= text_input f, :title, placeholder: "Title", class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= textarea f, :content, placeholder: "Description...", class: "form-control" %>
+    </div>
+
+    <%= hidden_input f, :target_id, value: @target.id %>
+    <%= hidden_input f, :author_id, value: @current_user.id %>
+
+    <%= submit "Submit Report", class: "btn btn-primary" %>
+  <% end %>
+
+</div>

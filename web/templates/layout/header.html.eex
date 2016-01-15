@@ -3,7 +3,7 @@
     <ul class="nav navbar-nav navbar-left">
       <%= if @current_user do %>
         <%= if @current_user.admin do %>
-          <li><a>Admin</a></li>
+          <li><%= link "Admin Panel", to: "/admin" %></li>
         <% end %>
       <% end %>
     </ul>

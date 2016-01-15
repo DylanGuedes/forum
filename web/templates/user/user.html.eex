@@ -1,0 +1,39 @@
+<div class="user-profile">
+  <div class="menu centered">
+    <div class="row">
+      <div class="col-md-4 user-about">
+        <h2>About</h2>
+        <dl class="dl-horizontal">
+          <dt>Name:</dt><dd><%= @user.name %></dd>
+          <dt>Username:</dt><dd><%= @user.username %></dd>
+          <dt>Admin:</dt><dd><%= @user.admin %></dd>
+        </dl>
+      </div>
+
+      <div class="col-md-4 user-last-posts">
+        <h2>Last Posts</h2>
+        <%= for post <- @user.posts_created do %>
+          <ul class="list-unstyled">
+            <li class="non-centered">
+              <%= link "#{abstract(post.content)}...", to: topic_path(@conn, :show, post.topic_id) %>
+            </li>
+          </ul>
+        <% end %>
+      </div>
+
+      <div class="col-md-4 user-last-topics">
+        <h2>Last Topics</h2>
+        <%= for topic <- @user.topics_created do %>
+          <ul class="list-unstyled">
+            <li class="non-centered">
+              <%= link "#{abstract(topic.title)}...", to: topic_path(@conn, :show, topic.id) %>
+            </li>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <p><%= link "Report this user", to: report_path(@conn, :new, %{"target_id" => @user.id}) %></p>
+</div>
+

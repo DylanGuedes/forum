@@ -3,8 +3,10 @@
 <%= form_for @changeset, post_path(@conn, :create), fn f -> %>
 
   <div class="form-group">
-    <%= text_input f, :content, placeholder: "Your post...", class: "form-control" %>
+    <%= textarea f, :content, class: "form-control" %>
   </div>
+
+  <h3>Preview</h3>
 
   <%= hidden_input f, :topic_id, value: @topic_id %>
   <%= hidden_input f, :author_id, value: @current_user.id %>

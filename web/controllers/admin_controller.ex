@@ -1,5 +1,6 @@
 defmodule Forum.AdminController do
   use Forum.Web, :controller
+  alias Forum.Section
   import Forum.Plug.Warden
   import Forum.Plug.AdminWarden
 
@@ -8,7 +9,8 @@ defmodule Forum.AdminController do
 
 
   def index(conn, _) do
-    render conn, "index.html"
+    changeset = Forum.Section.changeset(%Section{})
+    render conn, "index.html", changeset: changeset
   end
 
 end

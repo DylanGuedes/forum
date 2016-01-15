@@ -1,5 +1,6 @@
 defmodule Forum.UserSocket do
   use Phoenix.Socket
+  @max_age 2 * 7 * 24 * 60 * 60
 
   ## Channels
   # channel "rooms:*", Forum.RoomChannel
@@ -19,9 +20,18 @@ defmodule Forum.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
+  def connect(%{"token" => token}, socket) do
+    case Phoenix.Token.verify(socket, "user socket", token, max_age: @max_age) do
+      {:ok, user_id} ->
+        user = Forum.Repo.get!(Forum.User, user_id)
+      {:error, _reason} ->
+        :error
+    end
   end
+
+  def connect(_params, _socket), do: :error
+
+  def id(socket), do: "users_socket:#{socket.assign.user_id}"
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #
