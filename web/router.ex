@@ -15,12 +15,13 @@ defmodule Forum.Router do
   end
 
   scope "/", Forum do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :api
+    # pipe_through :browser # Use the default browser stack
     resources "/users", UserController, only: [:index, :new, :create, :show]
     get "/", PortalController, :index
     resources "/sessions", SessionController, only: [:new, :create]
     get "/sessions/signout", SessionController, :delete
-    resources "/sections", SectionController, only: [:show, :new, :create]
+    resources "/sections", SectionController, only: [:index, :show, :new, :create]
     resources "/topics", TopicController, only: [:show, :new, :create]
     resources "/posts", PostController, only: [:new, :create]
     resources "/reports", ReportController, only: [:new, :create, :show]
