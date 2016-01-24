@@ -41,13 +41,14 @@ defmodule Forum.Router do
     PhoenixTokenAuth.mount
   end
 
-  scope "/api", Forum do
+  scope "/api" do
     pipe_through :authenticated
     pipe_through :api
 
-    resources "/sections", SectionController
-    resources "/topics", TopicController
-    resources "/posts", PostController
+    resources "/sections", Forum.SectionController
+    resources "/topics", Forum.TopicController
+    resources "/posts", Forum.PostController
+    resources "/users", Forum.UserController, only: [:index]
   end
 
   # Other scopes may use custom stacks.

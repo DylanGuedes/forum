@@ -31,16 +31,17 @@ defmodule Forum.User do
 
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(email), [])
-    |> validate_length(:email, min: 1, max: 20)
+    |> cast(params, ~w(username), ~w(name))
   end
 
-  def registration_changeset(model, params) do
+  def registration_changeset(model, params \\ :empty) do
+    IO.puts("JSON AQUI")
+    IO.inspect(model)
     model
-    |> changeset(params)
-    |> cast(params, ~w(password), [])
-    |> validate_length(:password, min: 6, max: 100)
-    |> put_pass_hash()
+    #|> changeset(params)
+    #|> cast(params, ~w(password), [])
+    #|> validate_length(:password, min: 6, max: 100)
+    #  |> put_pass_hash()
   end
 
   defp put_pass_hash(changeset) do

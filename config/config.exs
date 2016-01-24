@@ -39,4 +39,5 @@ config :phoenix_token_auth,
 
 config :joken,
   json_module: PhoenixTokenAuth.PoisonHelper,
-  algorithm: :HS256 # Optional. defaults to :HS256
+  algorithm: :HS256, # Optional. defaults to :HS256,
+  secret_key: "very secret test key"
