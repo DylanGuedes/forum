@@ -12,6 +12,7 @@ defmodule Forum.SectionController do
 
   def show(conn, %{"id" => id}) do
     section = Repo.get!(Section, id)
+    section = Repo.preload section, [:topics, :author]
     render(conn, "show.json", section: section)
   end
 
@@ -30,7 +31,7 @@ defmodule Forum.SectionController do
     render conn, "new.html", changeset: changeset
   end
 
-  def create(conn, %{"section" => section_params }) do
+  def create(conn, %{"section" => section_params}) do
     changeset = Section.changeset(%Section{}, section_params)
     case Repo.insert(changeset) do
       {:ok, section} ->
@@ -47,7 +48,7 @@ defmodule Forum.SectionController do
   end
 
   def index(conn, _params) do
-    sections = Repo.all(Section)
+    sections = Repo.all from u in Section, preload: [:topics, :author]
     render(conn, "index.json", sections: sections)
   end
 

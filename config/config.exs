@@ -27,3 +27,16 @@ import_config "#{Mix.env}.exs"
 config :phoenix, :generators,
   migration: true,
   binary_id: false
+
+config :phoenix_token_auth,
+  user_model: Forum.User,
+  repo: Forum.Repo,
+  crypto_provider: Comeonin.Bcrypt,
+  token_validity_in_minutes: 7 * 24 * 60,
+  email_sender: "djmgguedes@gmail.com",
+  emailing_module: Forum.EmailConstructor,
+  user_model_validator: {Forum.User, :registration_changeset}
+
+config :joken,
+  json_module: PhoenixTokenAuth.PoisonHelper,
+  algorithm: :HS256 # Optional. defaults to :HS256

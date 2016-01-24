@@ -8,12 +8,18 @@ defmodule Forum.PostController do
 
   import Forum.Plug.Warden
 
-  plug Forum.Plug.Warden
+  plug Forum.Plug.Warden when action in [:create]
 
   def new(conn, %{"topic_id" => topic_id, "content" => quote_content}) do
     topic = Repo.get(Topic, topic_id)
     changeset = Post.changeset(%Post{}, %{content: transform_in_quote(quote_content)})
     render conn, "new.html", changeset: changeset, topic_id: topic_id
+  end
+
+  def show(conn, %{"id" => id}) do
+    post = Repo.get!(Forum.Post, id)
+    post = Repo.preload post, [:topic, :author]
+    render conn, "show.json", post: post
   end
 
   def new(conn, %{"topic_id" => topic_id}) do
@@ -22,7 +28,10 @@ defmodule Forum.PostController do
     render conn, "new.html", changeset: changeset, topic_id: topic_id
   end
 
-
+  def index(conn, _params) do
+    posts = Repo.all from u in Forum.Post, preload: [:topic, :author]
+    render conn, "index.json", posts: posts
+  end
 
   defp transform_in_quote(content) do
     """

@@ -5,6 +5,8 @@ defmodule Forum.Section do
   alias Forum.Topic
   import Ecto.Changeset
 
+  @derive {Poison.Encoder, only: [:id]}
+
   schema "sections" do
     field :name
     field :description

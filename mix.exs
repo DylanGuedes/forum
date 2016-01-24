@@ -19,7 +19,8 @@ defmodule Forum.Mixfile do
   def application do
     [mod: {Forum, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :comeonin]]
+                    :phoenix_ecto, :postgrex, :comeonin, :phoenix_token_auth
+                  ]]
   end
 
   # Specifies which paths to compile per environment.
@@ -30,14 +31,15 @@ defmodule Forum.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.0.3"},
+    [{:phoenix, "~> 1.1.0"},
      {:phoenix_ecto, "~> 1.1"},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.1"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
-     {:comeonin, "~> 1.2"},
-     {:corsica, "~> 0.4"}
+     {:comeonin, "~> 2.0.0"},
+     {:corsica, "~> 0.4"},
+     {:phoenix_token_auth, "~> 0.4.0"}
    ]
   end
 

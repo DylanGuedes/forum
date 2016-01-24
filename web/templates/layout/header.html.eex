@@ -3,7 +3,7 @@
     <ul class="nav navbar-nav navbar-left">
       <%= if @current_user do %>
         <%= if @current_user.admin do %>
-          <li><%= link "Admin Panel", to: "/admin" %></li>
+          <li class="header-items"><%= link " Admin Panel", to: "/admin", class: "fa fa-lock" %></li>
         <% end %>
       <% end %>
     </ul>
@@ -20,3 +20,4 @@
     </ul>
   </nav>
 </header>
+
