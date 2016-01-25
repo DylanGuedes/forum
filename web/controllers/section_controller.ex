@@ -32,7 +32,11 @@ defmodule Forum.SectionController do
   end
 
   def create(conn, %{"section" => section_params}) do
-    changeset = Section.changeset(%Section{}, section_params)
+    if(section_params["author"]) do
+      section_params = Map.put_new section_params, "author_id", section_params["author"]
+      changeset = Section.changeset(%Section{}, section_params)
+      IO.puts("changeset:")
+    end
     case Repo.insert(changeset) do
       {:ok, section} ->
         conn
@@ -41,6 +45,8 @@ defmodule Forum.SectionController do
         |> render("show.json", section: section)
 
       {:error, changeset} ->
+        IO.puts(changeset)
+        IO.puts("erro")
         conn
         |> put_status(:unprocessable_entity)
         |> render(Forum.ChangesetView, "error.json", changeset: changeset)
