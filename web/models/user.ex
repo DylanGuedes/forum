@@ -11,9 +11,16 @@ defmodule Forum.User do
     field :password, :string, virtual: true
     field :password_hash, :string
     field :admin, :boolean
+    field :email, :string
     has_many :sections_created, Forum.Section, foreign_key: :author_id
     has_many :topics_created, Forum.Topic, foreign_key: :author_id
     has_many :posts_created, Forum.Post, foreign_key: :author_id
+    field  :hashed_password, :string
+    field  :hashed_confirmation_token, :string
+    field  :confirmed_at, Ecto.DateTime
+    field  :hashed_password_reset_token, :string
+    field  :unconfirmed_email, :string
+    field  :authentication_tokens, {:array, :string}, default: []
     timestamps
   end
 
@@ -24,16 +31,17 @@ defmodule Forum.User do
 
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(name username), [])
-    |> validate_length(:username, min: 1, max: 20)
+    |> cast(params, ~w(username), ~w(name))
   end
 
-  def registration_changeset(model, params) do
+  def registration_changeset(model, params \\ :empty) do
+    IO.puts("JSON AQUI")
+    IO.inspect(model)
     model
-    |> changeset(params)
-    |> cast(params, ~w(password), [])
-    |> validate_length(:password, min: 6, max: 100)
-    |> put_pass_hash()
+    #|> changeset(params)
+    #|> cast(params, ~w(password), [])
+    #|> validate_length(:password, min: 6, max: 100)
+    #  |> put_pass_hash()
   end
 
   defp put_pass_hash(changeset) do

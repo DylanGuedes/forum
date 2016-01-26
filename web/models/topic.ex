@@ -7,6 +7,8 @@ defmodule Forum.Topic do
   alias Forum.Repo
   import Ecto.Query
 
+  @derive {Poison.Encoder, only: [:id]}
+
   schema "topics" do
     field :title
     field :subtitle

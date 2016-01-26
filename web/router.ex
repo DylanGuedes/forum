@@ -1,5 +1,10 @@
 defmodule Forum.Router do
   use Forum.Web, :router
+  import PhoenixTokenAuth
+
+  pipeline :authenticated do
+    plug PhoenixTokenAuth.Plug
+  end
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,17 +20,35 @@ defmodule Forum.Router do
   end
 
   scope "/", Forum do
+    pipe_through :api
+
+    # PhoenixTokenAuth.mount
     pipe_through :browser # Use the default browser stack
     resources "/users", UserController, only: [:index, :new, :create, :show]
     get "/", PortalController, :index
     resources "/sessions", SessionController, only: [:new, :create]
-    get "/sessions/signout", SessionController, :delete
-    resources "/sections", SectionController, only: [:show, :new, :create]
-    resources "/topics", TopicController, only: [:show, :new, :create]
+    #get "/sessions/signout", SessionController, :delete
+    resources "/sections", SectionController, only: [:index, :show, :new, :create]
+    resources "/topics", TopicController, only: [:show, :new, :create, :index]
     resources "/posts", PostController, only: [:new, :create]
     resources "/reports", ReportController, only: [:new, :create, :show]
     get "/posts/new", PostController, :new
     get "/admin", AdminController, :index
+  end
+
+  scope "/api" do
+    pipe_through :api
+    PhoenixTokenAuth.mount
+  end
+
+  scope "/api" do
+    pipe_through :authenticated
+    pipe_through :api
+
+    resources "/sections", Forum.SectionController
+    resources "/topics", Forum.TopicController
+    resources "/posts", Forum.PostController
+    resources "/users", Forum.UserController, only: [:index]
   end
 
   # Other scopes may use custom stacks.

@@ -7,4 +7,29 @@ defmodule Forum.UserView do
     string_abstract
   end
 
+  def render("index.json", %{users: users}) do
+    %{users: render_many(users, Forum.UserView, "user.json")}
+  end
+
+  def render("show.json", %{user: user}) do
+    %{user: render_one(user, Forum.UserView, "user.json")}
+  end
+
+  def render("user.json", %{user: user}) do
+    %{id: user.id,
+      name: user.name,
+      username: user.username,
+      admin: user.admin,
+      sections_created: fix_json(user.sections_created),
+      topics_created: fix_json(user.topics_created),
+      posts_created: fix_json(user.posts_created)
+    }
+  end
+
+  def fix_json(entity) do
+    for node <- entity do
+      node.id
+    end
+  end
+
 end

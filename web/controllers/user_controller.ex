@@ -1,17 +1,17 @@
 defmodule Forum.UserController do
   use Forum.Web, :controller
   alias Forum.User
-  plug :authenticate when action in [:show]
+  plug :authenticate when action in [:create]
 
   def index(conn, _params) do
-    users = Repo.all(Forum.User)
-    render conn, "index.html", users: users
+    users = Repo.all from u in Forum.User, preload: [:topics_created, :posts_created, :sections_created]
+    render conn, "index.json", users: users
   end
 
   def show(conn, %{"id" => id}) do
-    user = Repo.get(Forum.User, id)
-    user = Repo.preload user, [:posts_created, :topics_created]
-    render conn, "show.html", user: user
+    user = Repo.get!(Forum.User, id)
+    user = Repo.preload user, [:posts_created, :topics_created, :sections_created]
+    render conn, "show.json", user: user
   end
 
   def new(conn, _params) do
@@ -24,11 +24,14 @@ defmodule Forum.UserController do
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn
-        |> put_flash(:info, "User created!")
-        |> redirect(to: user_path(conn, :index))
+        |> put_status(:created)
+        |> put_resp_header("location", user_path(conn, :show, user))
+        |> render("show.json", user: user)
 
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(Forum.ChangesetView, "error.json", changeset: changeset)
     end
   end
 
