@@ -33,6 +33,7 @@ defmodule Forum.User do
 
   def changeset(model, params \\ :empty) do
     model
+    |> cast(params, ~w(username password), ~w(name))
   end
 
   defp put_pass_hash(changeset) do

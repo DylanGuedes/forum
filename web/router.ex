@@ -28,9 +28,6 @@ defmodule Forum.Router do
     get "/", PortalController, :index
     resources "/sessions", SessionController, only: [:new, :create]
     #get "/sessions/signout", SessionController, :delete
-    resources "/sections", SectionController, only: [:index, :show, :new, :create]
-    resources "/topics", TopicController, only: [:show, :new, :create, :index]
-    resources "/posts", PostController, only: [:new, :create]
     resources "/reports", ReportController, only: [:new, :create, :show]
     get "/posts/new", PostController, :new
     get "/admin", AdminController, :index
@@ -42,9 +39,10 @@ defmodule Forum.Router do
   end
 
   scope "/api" do
-    #  pipe_through :authenticated
+    pipe_through :authenticated
     pipe_through :api
 
+    resources "/users", Forum.UserController, only: [:show, :index]
     resources "/sections", Forum.SectionController
     resources "/topics", Forum.TopicController
     resources "/posts", Forum.PostController

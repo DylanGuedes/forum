@@ -5,19 +5,14 @@ defmodule Forum.UserControllerTest do
   import Forum.Auth
 
   setup do
-    user = insert_user(username: "teste123")
+    {:ok, user} = insert_user(username: "teste123")
     conn = assign(conn(), :current_user, user)
     {:ok, conn: conn, user: user}
   end
 
-  test "users#index should return success" do
+  test "users#index should redirect if not logged in" do
     conn = get conn(), user_path(conn, :index)
-    assert html_response(conn, 200)
-  end
-
-  test "users#new should return success" do
-    conn = get conn(), user_path(conn, :new)
-    assert html_response(conn, 200)
+    assert html_response(conn, 302)
   end
 
   test "users#show should redirect if not logged in" do
@@ -29,15 +24,7 @@ defmodule Forum.UserControllerTest do
 
   test "users#show should return success if user is logged", %{conn: conn, user: user} do
     conn = get conn, user_path(conn, :show, user.id)
-    assert html_response(conn, 303)
+    assert json_response(conn, 200)
   end
 
-  test "requires user authentication in some actions", %{conn: conn} do
-    Enum.each([
-      get(conn, user_path(conn, :show, "123")),
-    ], fn conn ->
-      assert html_response(conn, 302)
-      assert conn.halted
-    end)
-  end
 end
