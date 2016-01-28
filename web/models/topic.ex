@@ -7,7 +7,7 @@ defmodule Forum.Topic do
   alias Forum.Repo
   import Ecto.Query
 
-  @derive {Poison.Encoder, only: [:id]}
+  @derive {Poison.Encoder, only: [:id, :title, :subtitle]}
 
   schema "topics" do
     field :title
@@ -25,6 +25,7 @@ defmodule Forum.Topic do
     |> validate_length(:content, min: 10, max: 99999)
     |> validate_length(:title, min: 3, max: 150)
     |> validate_length(:subtitle, min: 3, max: 150)
+    |> unique_constraint(:title)
   end
 
   def count_posts(query) do

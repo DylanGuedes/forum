@@ -35,7 +35,7 @@ config :phoenix_token_auth,
   token_validity_in_minutes: 7 * 24 * 60,
   email_sender: "djmgguedes@gmail.com",
   emailing_module: Forum.EmailConstructor,
-  user_model_validator: {Forum.User, :registration_changeset}
+  user_model_validator: {Forum.User, :changeset}
 
 config :joken,
   json_module: PhoenixTokenAuth.PoisonHelper,
