@@ -5,6 +5,8 @@ defmodule Forum.Section do
   alias Forum.Topic
   import Ecto.Changeset
 
+  @derive {Poison.Encoder, only: [:id]}
+
   schema "sections" do
     field :name
     field :description
@@ -16,7 +18,9 @@ defmodule Forum.Section do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(author_id description name), [] )
-    |> validate_length(:content, min: 10, max: 99999)
+    |> unique_constraint(:name)
+    |> validate_length(:description, min: 10, max: 99999)
+    |> validate_length(:name, min: 3, max: 100)
   end
 
   def count_topics(query) do

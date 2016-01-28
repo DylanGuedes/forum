@@ -35,5 +35,8 @@ defmodule Forum.Endpoint do
     key: "_forum_key",
     signing_salt: "N7ji+r3Y",
     max_age: 86400
+  plug Corsica,
+    origins: ["http://localhost:4200"],
+    allow_headers: ["accept", "content-type", "authorization"]
   plug Forum.Router
 end
