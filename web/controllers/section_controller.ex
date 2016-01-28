@@ -16,37 +16,23 @@ defmodule Forum.SectionController do
     render(conn, "show.json", section: section)
   end
 
-
-  # def show(conn, %{"id" => id}) do
-    #section = Repo.get(Forum.Section, id)
-    #section = Repo.preload section, [:author, :topics]
-    #topics = from u in Topic, where: u.section_id == ^id, preload: [:author, :posts]
-    #query = Topic.count_posts(topics)
-    #topics = Repo.all query
-    #render conn, "show.html", section: section, topics: topics
-  # end
-
   def new(conn, _params) do
     changeset = Ecto.build_assoc(conn.assigns.current_user, :sections_created)
     render conn, "new.html", changeset: changeset
   end
 
   def create(conn, %{"section" => section_params}) do
-    if(section_params["author"]) do
-      section_params = Map.put_new section_params, "author_id", section_params["author"]
-      changeset = Section.changeset(%Section{}, section_params)
-      IO.puts("changeset:")
-    end
+    changeset = Section.changeset(%Section{}, section_params)
     case Repo.insert(changeset) do
       {:ok, section} ->
+        section = Repo.preload section, [:topics, :author]
+
         conn
         |> put_status(:created)
         |> put_resp_header("location", section_path(conn, :show, section))
         |> render("show.json", section: section)
 
       {:error, changeset} ->
-        IO.puts(changeset)
-        IO.puts("erro")
         conn
         |> put_status(:unprocessable_entity)
         |> render(Forum.ChangesetView, "error.json", changeset: changeset)

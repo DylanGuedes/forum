@@ -18,6 +18,7 @@ defmodule Forum.Section do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(author_id description name), [] )
+    |> unique_constraint(:name)
     |> validate_length(:description, min: 10, max: 99999)
     |> validate_length(:name, min: 3, max: 100)
   end

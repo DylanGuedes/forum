@@ -28,19 +28,6 @@ defmodule Forum.TopicController do
     render conn, "new.html", changeset: changeset, section_id: section_id
   end
 
-  #def create(conn, %{"topic" => topic_params }) do
-    # changeset = Topic.changeset(%Topic{}, topic_params)
-    #case Repo.insert(changeset) do
-      #{:ok, topic} ->
-        #conn
-        #|> put_flash(:info, "Topic created!")
-        # |> redirect(to: topic_path(conn, :show, topic.id))
-
-      #{:error, changeset} ->
-        #render(conn, "new.html", changeset: changeset)
-        #end
-    #end
-
   def create(conn, %{"topic" => topic_params }) do
     changeset = Topic.changeset(%Topic{}, topic_params)
     case Repo.insert(changeset) do

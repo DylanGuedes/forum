@@ -42,7 +42,7 @@ defmodule Forum.Router do
   end
 
   scope "/api" do
-    pipe_through :authenticated
+    #  pipe_through :authenticated
     pipe_through :api
 
     resources "/sections", Forum.SectionController

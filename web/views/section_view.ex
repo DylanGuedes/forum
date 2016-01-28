@@ -13,15 +13,16 @@ defmodule Forum.SectionView do
     %{id: section.id,
       name: section.name,
       description: section.description,
-      mytopics: inject_topics(section.topics)
+      topics: render_many(section.topics, Forum.TopicView, "topic.json"),
+      author: section.author.id
     }
   end
 
-  def inject_topics([]) do
+  def ember_parser([]) do
     []
   end
 
-  def inject_topics(topics) do
+  def ember_parser(topics) do
     for topic <- topics do
       topic.id
     end
