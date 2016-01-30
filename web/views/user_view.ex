@@ -22,7 +22,9 @@ defmodule Forum.UserView do
       admin: user.admin,
       sections_created: fix_json(user.sections_created),
       topics_created: fix_json(user.topics_created),
-      posts_created: fix_json(user.posts_created)
+      posts_created: fix_json(user.posts_created),
+      email: user.email,
+      created_at: user.inserted_at
     }
   end
 

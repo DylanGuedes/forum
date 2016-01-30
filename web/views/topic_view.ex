@@ -16,8 +16,14 @@ defmodule Forum.TopicView do
       subtitle: topic.subtitle,
       posts: fix_json(topic.posts),
       section: topic.section.id,
-      content: topic.content
+      content: topic.content,
+      author: topic.author_id,
+      created_at: topic.inserted_at
     }
+  end
+
+  def fix_json([]) do
+    []
   end
 
   def fix_json(entity) do

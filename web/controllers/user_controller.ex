@@ -1,7 +1,6 @@
 defmodule Forum.UserController do
   use Forum.Web, :controller
   alias Forum.User
-  plug :authenticate when action in [:show, :index]
 
   def index(conn, _params) do
     users = Repo.all from u in Forum.User, preload: [:topics_created, :posts_created, :sections_created]

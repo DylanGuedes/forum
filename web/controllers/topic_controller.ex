@@ -4,11 +4,7 @@ defmodule Forum.TopicController do
   alias Forum.Post
   alias Forum.Topic
 
-  import Forum.Plug.Warden
-
-  plug Forum.Plug.Warden when action in [:new, :create]
-
-  plug :scrub_params, "section" when action in [:create, :update]
+  plug :scrub_params, "topic" when action in [:create, :update]
 
   def show(conn, %{"id" => id}) do
     topic = Repo.get!(Topic, id)
@@ -32,6 +28,7 @@ defmodule Forum.TopicController do
     changeset = Topic.changeset(%Topic{}, topic_params)
     case Repo.insert(changeset) do
       {:ok, topic} ->
+        topic = Repo.preload topic, [:author, :section, :posts]
         conn
         |> put_status(:created)
         |> put_resp_header("location", topic_path(conn, :show, topic))

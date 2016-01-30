@@ -13,8 +13,9 @@ defmodule Forum.SectionView do
     %{id: section.id,
       name: section.name,
       description: section.description,
-      topics: render_many(section.topics, Forum.TopicView, "topic.json"),
-      author: section.author.id
+      topics: ember_parser(section.topics),
+      author: section.author_id,
+      created_at: section.inserted_at
     }
   end
 

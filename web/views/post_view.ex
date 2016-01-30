@@ -11,9 +11,10 @@ defmodule Forum.PostView do
 
   def render("post.json", %{post: post}) do
     %{id: post.id,
-      topic: post.topic.id,
-      author: post.author.id,
-      content: post.content
+      topic: post.topic_id,
+      author: post.author_id,
+      content: post.content,
+      created_at: post.inserted_at
     }
   end
 

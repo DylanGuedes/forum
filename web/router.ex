@@ -46,7 +46,6 @@ defmodule Forum.Router do
     resources "/sections", Forum.SectionController
     resources "/topics", Forum.TopicController
     resources "/posts", Forum.PostController
-    resources "/users", Forum.UserController, only: [:index]
   end
 
   # Other scopes may use custom stacks.
