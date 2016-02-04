@@ -7,6 +7,8 @@ use Mix.Config
 
 # Configures the endpoint
 config :forum, Forum.Endpoint,
+  mailgun_domain: "https://api.mailgun.net/v3/sandbox2b7894ba4a7d4e39a2f3e4092d29501f.mailgun.org",
+  mailgun_key: System.get_env("key-220dc162f3e3a4ca9663dd0d32417c1d"),
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "sGB0ZP0fFhx9HqiIHcjb3nLEbGOnqonre7kyJHs/rIpwfFpIAnqicSi33lxm3JKP",
@@ -34,7 +36,7 @@ config :phoenix_token_auth,
   crypto_provider: Comeonin.Bcrypt,
   token_validity_in_minutes: 7 * 24 * 60,
   email_sender: "djmgguedes@gmail.com",
-  emailing_module: Forum.EmailConstructor,
+  emailing_module: Forum.Mailer,
   user_model_validator: {Forum.User, :changeset}
 
 config :joken,

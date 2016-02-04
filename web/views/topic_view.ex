@@ -2,8 +2,16 @@ defmodule Forum.TopicView do
   use Forum.Web, :view
 
 
-  def render("index.json", %{topics: topics}) do
-    %{topics: render_many(topics, Forum.TopicView, "topic.json")}
+  def render("index.json", %{topics: topics, page_number: page_number, page_size: page_size, total_pages: total_pages, total_entries: total_entries}) do
+    %{
+      topics: render_many(topics, Forum.TopicView, "topic.json"),
+      meta: %{
+        page_number: page_number,
+        page_size: page_size,
+        total_entries: total_entries,
+        total_pages: total_pages
+      }
+    }
   end
 
   def render("show.json", %{topic: topic}) do
@@ -15,7 +23,7 @@ defmodule Forum.TopicView do
       title: topic.title,
       subtitle: topic.subtitle,
       posts: fix_json(topic.posts),
-      section: topic.section.id,
+      section: topic.section_id,
       content: topic.content,
       author: topic.author_id,
       created_at: topic.inserted_at

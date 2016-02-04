@@ -31,9 +31,12 @@ defmodule Forum.User do
     |> cast(params, ~w(admin), [])
   end
 
+  @required_fields ~w(username password inserted_at)
+  @optional_fields ~w(email name)
+
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(username password), ~w(name))
+    |> cast(params, @required_fields, @optional_fields)
   end
 
   defp put_pass_hash(changeset) do

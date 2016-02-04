@@ -1,8 +1,11 @@
 defmodule Forum.TopicController do
   use Forum.Web, :controller
+  alias Forum.Repo
   alias Forum.User
   alias Forum.Post
   alias Forum.Topic
+
+  import Ecto.Query
 
   plug :scrub_params, "topic" when action in [:create, :update]
 
@@ -41,9 +44,26 @@ defmodule Forum.TopicController do
     end
   end
 
-  def index(conn, _params) do
-    topics = Repo.all from u in Topic, preload: [:section, :author, :posts]
-    render(conn, "index.json", topics: topics)
+  def index(conn, params) do
+    if(params["section_id"]) do
+      topics = Topic
+      |> where([p], p.section_id == ^params["section_id"])
+      |> order_by([p], desc: p.inserted_at)
+      |> preload(:posts)
+      |> Repo.paginate(page: params["page"])
+    else
+      topics = Topic
+      |> order_by([p], desc: p.inserted_at)
+      |> preload(:posts)
+      |> Repo.paginate(page: params["page"])
+    end
+
+    render conn, "index.json",
+    topics: topics.entries,
+    page_number: topics.page_number,
+    page_size: topics.page_size,
+    total_pages: topics.total_pages,
+    total_entries: topics.total_entries
   end
 
 end

@@ -1,8 +1,16 @@
 defmodule Forum.PostView do
   use Forum.Web, :view
 
-  def render("index.json", %{posts: posts}) do
-    %{posts: render_many(posts, Forum.PostView, "post.json")}
+  def render("index.json", %{posts: posts, total_pages: total_pages, total_entries: total_entries, page_number: page_number, page_size: page_size}) do
+    %{
+      posts: render_many(posts, Forum.PostView, "post.json"),
+      meta: %{
+        page_size: page_size,
+        page_number: page_number,
+        total_entries: total_entries,
+        total_pages: total_pages
+      }
+    }
   end
 
   def render("show.json", %{post: post}) do
@@ -16,12 +24,6 @@ defmodule Forum.PostView do
       content: post.content,
       created_at: post.inserted_at
     }
-  end
-
-  def fix_json(entity) do
-    for node <- entity do
-      node.id
-    end
   end
 
 end

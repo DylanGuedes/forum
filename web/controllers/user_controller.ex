@@ -1,10 +1,20 @@
 defmodule Forum.UserController do
   use Forum.Web, :controller
   alias Forum.User
+  alias Forum.Repo
+  import Ecto.Query
 
-  def index(conn, _params) do
-    users = Repo.all from u in Forum.User, preload: [:topics_created, :posts_created, :sections_created]
-    render conn, "index.json", users: users
+  def index(conn, params) do
+    users = User
+    |> order_by([p], desc: p.inserted_at)
+    |> Repo.paginate(page: params["page"])
+
+    render conn, "index.json",
+    users: users.entries,
+    page_number: users.page_number,
+    page_size: users.page_size,
+    total_pages: users.total_pages,
+    total_entries: users.total_entries
   end
 
   def show(conn, %{"id" => id}) do

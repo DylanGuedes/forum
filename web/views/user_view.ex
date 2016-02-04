@@ -7,8 +7,16 @@ defmodule Forum.UserView do
     string_abstract
   end
 
-  def render("index.json", %{users: users}) do
-    %{users: render_many(users, Forum.UserView, "user.json")}
+  def render("index.json", %{users: users, page_number: page_number, page_size: page_size, total_pages: total_pages, total_entries: total_entries}) do
+    %{
+      users: render_many(users, Forum.UserView, "user.json"),
+      meta: %{
+        page_number: page_number,
+        page_size: page_size,
+        total_pages: total_pages,
+        total_entries: total_entries
+      }
+    }
   end
 
   def render("show.json", %{user: user}) do
@@ -20,9 +28,6 @@ defmodule Forum.UserView do
       name: user.name,
       username: user.username,
       admin: user.admin,
-      sections_created: fix_json(user.sections_created),
-      topics_created: fix_json(user.topics_created),
-      posts_created: fix_json(user.posts_created),
       email: user.email,
       created_at: user.inserted_at
     }

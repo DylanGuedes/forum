@@ -19,7 +19,7 @@ defmodule Forum.Mixfile do
   def application do
     [mod: {Forum, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :comeonin, :phoenix_token_auth
+                    :phoenix_ecto, :postgrex, :comeonin, :phoenix_token_auth, :faker
                   ]]
   end
 
@@ -39,7 +39,10 @@ defmodule Forum.Mixfile do
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 2.0.0"},
      {:corsica, "~> 0.4"},
-     {:phoenix_token_auth, "~> 0.4.0"}
+     {:phoenix_token_auth, "~> 0.4.0"},
+     {:faker, "~> 0.5"},
+     {:scrivener, "~> 1.0"},
+     {:mailgun, "~> 0.1.2"}
    ]
   end
 

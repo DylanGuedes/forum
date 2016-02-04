@@ -1,8 +1,16 @@
 defmodule Forum.SectionView do
   use Forum.Web, :view
 
-  def render("index.json", %{sections: sections}) do
-    %{sections: render_many(sections, Forum.SectionView, "section.json")}
+  def render("index.json", %{sections: sections, page_number: page_number, total_pages: total_pages, total_entries: total_entries, page_size: page_size}) do
+    %{
+      sections: render_many(sections, Forum.SectionView, "section.json"),
+      meta: %{
+        page_number: page_number,
+        total_entries: total_entries,
+        page_size: page_size,
+        total_pages: total_pages
+      }
+    }
   end
 
   def render("show.json", %{section: section}) do

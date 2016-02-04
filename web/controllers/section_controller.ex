@@ -39,9 +39,18 @@ defmodule Forum.SectionController do
     end
   end
 
-  def index(conn, _params) do
-    sections = Repo.all from u in Section, preload: [:topics, :author]
-    render(conn, "index.json", sections: sections)
+  def index(conn, params) do
+    sections = Section
+    |> order_by([p], desc: p.inserted_at)
+    |> preload(:topics)
+    |> Repo.paginate(page: params["page"])
+
+    render conn, "index.json",
+    sections: sections.entries,
+    total_pages: sections.total_pages,
+    page_number: sections.page_number,
+    page_size: sections.page_size,
+    total_entries: sections.total_entries
   end
 
 end

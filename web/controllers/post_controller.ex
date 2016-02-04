@@ -1,6 +1,7 @@
 defmodule Forum.PostController do
   use Forum.Web, :controller
   import Ecto.Model
+  import Ecto.Query
   alias Forum.Repo
   alias Forum.Topic
   alias Forum.Post
@@ -16,7 +17,6 @@ defmodule Forum.PostController do
 
   def show(conn, %{"id" => id}) do
     post = Repo.get!(Forum.Post, id)
-    post = Repo.preload post, [:topic, :author]
     render conn, "show.json", post: post
   end
 
@@ -26,9 +26,24 @@ defmodule Forum.PostController do
     render conn, "new.html", changeset: changeset, topic_id: topic_id
   end
 
-  def index(conn, _params) do
-    posts = Repo.all from u in Forum.Post, preload: [:topic, :author]
-    render conn, "index.json", posts: posts
+  def index(conn, params) do
+    if(params["topic_id"]) do
+      posts = Post
+      |> where([p], p.topic_id == ^params["topic_id"])
+      |> order_by([p], asc: p.inserted_at)
+      |> Repo.paginate(page: params["page"])
+    else
+      posts = Post
+      |> order_by([p], desc: p.inserted_at)
+      |> Repo.paginate(page: params["page"])
+    end
+
+    render conn, "index.json",
+    posts: posts.entries,
+    page_number: posts.page_number,
+    page_size: posts.page_size,
+    total_pages: posts.total_pages,
+    total_entries: posts.total_entries
   end
 
   defp transform_in_quote(content) do
